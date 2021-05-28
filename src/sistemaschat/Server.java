@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -22,7 +22,10 @@ public class Server implements Runnable {
     private String ip;
     private String mensaje;
     private DetalleMensaje recibirDetalleMensaje;
+    private DetalleMensaje recibirDetalleMensaje2;
     private int puerto;
+    private boolean bandera;
+    private int puerto2;
 
     public Server() {
         Thread hilo = new Thread(this);
@@ -44,15 +47,41 @@ public class Server implements Runnable {
                 ip = recibirDetalleMensaje.getIp();
                 mensaje = recibirDetalleMensaje.getMensaje();
                 puerto = recibirDetalleMensaje.getPuerto();
+                bandera = recibirDetalleMensaje.isMultichat();
+                System.out.println("este" + bandera);
 
-                Socket enviarMensaje = new Socket("192.168.0.101", puerto);
+                Socket enviarMensaje = new Socket("127.0.0.1", puerto);
+                
 
                 ObjectOutputStream enviarPaquete = new ObjectOutputStream(enviarMensaje.getOutputStream());
 
                 enviarPaquete.writeObject(recibirDetalleMensaje);
 
+              
+                    
+                if(bandera==true){
+                
+                
+                
+                puerto2 = recibirDetalleMensaje.getPuerto2();
+                    System.out.println("oee" + puerto2);
+            
+                    
+                enviarMensaje = new Socket("127.0.0.1", puerto2);
+                
+
+                enviarPaquete = new ObjectOutputStream(enviarMensaje.getOutputStream());
+
+                enviarPaquete.writeObject(recibirDetalleMensaje);
+
+                
+                }
+
+               
+                
                 enviarPaquete.close();
                 enviarMensaje.close();
+
 
                 //miSocket.close();
             }

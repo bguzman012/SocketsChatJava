@@ -9,12 +9,9 @@ public class DetalleMensaje implements Serializable {
 	private String ip;
 	private String mensaje;
 	private int puerto;
-	
-	
-	
-	
-	
-	
+        private int puerto2;
+        private boolean multichat;
+
 	public int getPuerto() {
 		return puerto;
 	}
@@ -39,5 +36,23 @@ public class DetalleMensaje implements Serializable {
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
+        
+    public int getPuerto2() {
+        return puerto2;
+    }
+
+    public void setPuerto2(int puerto2) {
+        this.puerto2 = puerto2;
+    }
+
+    public boolean isMultichat() {
+        return multichat;
+    }
+
+    public void setMultichat(boolean multichat) {
+        this.multichat = multichat;
+    }
+	
+	
 
 }

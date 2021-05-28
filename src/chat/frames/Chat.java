@@ -6,6 +6,8 @@
 package chat.frames;
 
 import chat.modelo.DetalleMensaje;
+import edd.Multilista;
+import edd.Nodo;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,13 +23,36 @@ import java.util.logging.Logger;
  */
 public class Chat extends javax.swing.JFrame implements Runnable {
 
+    private boolean isMultichat;
+    Multilista ml = new Multilista();;
+    Nodo r= null;
     /**
      * Creates new form Chat
      */
     public Chat() {
+        this.isMultichat = false;
         initComponents();
+        this.jLabel18.setVisible(false);
+        this.jLabel19.setVisible(false);
         Thread hilo = new Thread(this);
         hilo.start();
+        
+        
+        
+
+        Nodo enviados = new Nodo("Enviados");
+        Nodo recibidos = new Nodo("Recibidos");
+        
+    
+        String arr[]= new String[1];
+        
+        arr[0]="";
+        r= ml.inserta(r, 0, arr, enviados);
+        arr[0]="";
+        r= ml.inserta(r, 0, arr, recibidos);
+        
+        
+       
     }
 
     /**
@@ -63,6 +88,9 @@ public class Chat extends javax.swing.JFrame implements Runnable {
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +124,11 @@ public class Chat extends javax.swing.JFrame implements Runnable {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
@@ -130,7 +163,7 @@ public class Chat extends javax.swing.JFrame implements Runnable {
 
         jLabel14.setBackground(new java.awt.Color(0, 0, 0));
         jLabel14.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel14.setText("Eliminados");
+        jLabel14.setText("Spam");
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chat/resources/eliminar.png"))); // NOI18N
         jLabel15.setText("jLabel6");
@@ -224,6 +257,21 @@ public class Chat extends javax.swing.JFrame implements Runnable {
         jLabel10.setText("Usuario2");
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chat/resources/plus.png"))); // NOI18N
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel11MouseClicked(evt);
+            }
+        });
+
+        jLabel17.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel17.setText("Usuario3");
+
+        jLabel18.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel18.setText("Usuario3");
+
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chat/resources/help-desk.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -251,13 +299,19 @@ public class Chat extends javax.swing.JFrame implements Runnable {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel19)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11))
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel11))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -268,6 +322,11 @@ public class Chat extends javax.swing.JFrame implements Runnable {
                     .addGap(49, 49, 49)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(869, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(463, 463, 463)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(463, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,7 +361,13 @@ public class Chat extends javax.swing.JFrame implements Runnable {
                                 .addGap(27, 27, 27)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,6 +378,11 @@ public class Chat extends javax.swing.JFrame implements Runnable {
                     .addGap(134, 134, 134)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(1132, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(673, 673, 673)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(674, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -340,7 +410,9 @@ public class Chat extends javax.swing.JFrame implements Runnable {
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         // TODO add your handling code here:
-        System.out.println("clicked");
+        ClienteRecibidos cli = new ClienteRecibidos();
+            cli.setVisible(true);
+            ml.llamarDespligarRecibidos(r, "", cli);
 
     }//GEN-LAST:event_jPanel3MouseClicked
 
@@ -348,18 +420,36 @@ public class Chat extends javax.swing.JFrame implements Runnable {
 
         // TODO add your handling code here:
         try {
-        Socket miScoket = new Socket("192.168.0.101", 9999);
+        Socket miScoket = new Socket("127.0.0.1", 9999);
+        
 
+    
             DetalleMensaje detalleMensaje = new DetalleMensaje();
 
             detalleMensaje.setNick("Bryam");
             //detalleMensaje.setIp(ip.getText());
             detalleMensaje.setMensaje(jTextField1.getText());
             detalleMensaje.setPuerto(9090);
+            if(this.isMultichat){
+                detalleMensaje.setPuerto2(9092);
+                detalleMensaje.setMultichat(true);
+            }
             
             jTextArea1.append("\n\n\t\t\t" + "De:" + "\t" + "Bryam");
             jTextArea1.append("\n\t\t\t" + "Mensaje:" + "\t" +jTextField1.getText());
-
+            String cadena;
+            cadena = "Mensaje:" + "\t" +jTextField1.getText();
+            String arr2[]= new String[2];
+        
+            arr2[0]="Enviados";
+            arr2[1]="";
+            Nodo enviado1 = new Nodo(cadena);
+            r= ml.inserta(r, 0, arr2, enviado1);
+       
+            
+            
+           
+           //ml.despligar(r, "");
             ObjectOutputStream objeto = new ObjectOutputStream(miScoket.getOutputStream());
             objeto.writeObject(detalleMensaje);
             //miScoket.close();
@@ -371,6 +461,27 @@ public class Chat extends javax.swing.JFrame implements Runnable {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+
+        this.jLabel19.setVisible(true);
+        this.jLabel18.setVisible(true);
+        this.jLabel11.setVisible(false);
+        Chat3 chat3 = new Chat3();
+        chat3.setVisible(true);
+        this.isMultichat = true;
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+
+         System.out.println("*******************");
+            //System.out.println("chat.frames.Chat.jLabel7MouseClicked()"+cadenaFinal);
+            Cliente1Enviados cli = new Cliente1Enviados();
+            cli.setVisible(true);
+            ml.llamarDespligar(r, "", cli);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -416,6 +527,9 @@ public class Chat extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -445,9 +559,21 @@ public class Chat extends javax.swing.JFrame implements Runnable {
                 ObjectInputStream flujoEntrada = new ObjectInputStream(cliente.getInputStream());
                 mensajeRecibido = (DetalleMensaje) flujoEntrada.readObject();
 
-                jTextArea1.append("\n" + "De:" + "\t" + mensajeRecibido.getNick());
+                jTextArea1.append("\n\n" + "De:" + "\t" + mensajeRecibido.getNick());
                 jTextArea1.append("\n" + "Mensaje:" + "\t" + mensajeRecibido.getMensaje());
-
+                
+                String cadena;
+                cadena = "De:" + "\t" + mensajeRecibido.getNick() + "\n" + "Mensaje:" + "\t" 
+                        + mensajeRecibido.getMensaje();
+                
+                String arr2[]= new String[2];
+        
+                arr2[0]="Recibidos";
+                arr2[1]="";
+                Nodo enviado1 = new Nodo(cadena);
+                r= ml.inserta(r, 0, arr2, enviado1);
+                
+                
                 //serverSocket.close();
             }
 
